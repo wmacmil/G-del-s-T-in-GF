@@ -32,7 +32,7 @@ lin
   Esuc e = "the successor of" ++ e ;
 
 --Enatrec : Var -> Var -> Exp -> Exp -> Exp ->  Exp ;
-  Enatrec v1 v2 step base n = "the recursor over" ++ n ++ ". In the base case  we take 0 to" ++ base ++ ". In the case of a successor, we take" ++ v2 ++ "to" ++ step ++ "." ;
+  Enatrec v1 v2 step base n = "the recursor over" ++ n ++ ". In the base case  we take" ++ base ++ ". In the case of a successor, we take some number" ++ v2 ++ "to" ++ step ++ "." ; --to its successor
 
     -- Enatrec v1 v2 step base n = mkPrec 3 ("rec" ++ usePrec 4 n ++ "{ 0 =>" ++ usePrec 4 base ++ "| suc" ++ v1 ++  "with" ++ v2 ++ "=>" ++ usePrec 4 step ++ "}") ;
 
@@ -69,7 +69,7 @@ lin
   DtypDef d1 d2 = d1 ++ "and" ++ d2 ; -- \n fails, breaks the (l . p . l)
 
 --Typ : Var -> Typ -> Decl ;
-  Dtyp v t = v ++ "has the type of" ++ t ;
+  Dtyp v t = v ++ "has the type" ++ t ;
   -- type of vs type taking naturals to naturals
   -- be in
   -- be a
@@ -78,7 +78,7 @@ lin
   Ddef v e = v ++ "is defined to be" ++ e ;
 
   Double = "double" ;
-  Plus = "the sum of" ;
-  Times = "the product of" ;
+  Plus = "the sum" ;
+  Times = "the product" ;
 
 }

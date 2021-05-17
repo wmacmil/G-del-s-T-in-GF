@@ -69,6 +69,18 @@ lin
 
   -- all scratchwork 
 
+  -- p "times : nat -> nat -> nat ; times = \\ ( x y : nat ) -> rec x { 0 => 0 | suc _ with z => plus y z }"
+
+  -- p "times : nat -> nat -> nat ; times = \\ ( x y : nat ) -> rec x { 0 => 0 | suc _ with z => y }"
+
+    -- fixity is fucked
+    -- p "times : nat -> nat -> nat ; times = \\ ( x y : nat ) -> rec x { 0 => 0 | suc _ with z => ( ( y ) ( z ) ) }"
+
+  -- p -cat=Exp "\\ ( x y : nat ) -> plus x y" 
+
+
+  -- p "plus : nat -> nat -> nat ; plus = \\ ( x y : nat ) -> rec x { 0 => y | suc _ with z => suc z }"
+
   -- p "double : nat -> nat ; double = \\ ( x : nat ) -> rec x { 0 => 0 | suc _ with y => suc suc y }"
   --   DtypDef (Dtyp Double (Tarr Tnat Tnat)) (Ddef Double (Elam X Tnat (Enatrec Under Y (Esuc (Esuc (Evar Y))) (Evar (IntV 0)) (Evar X))))
 
