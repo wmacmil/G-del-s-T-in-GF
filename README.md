@@ -1,1 +1,1 @@
-# G-del-s-T-in-GF
+# An implementation of GF Gödels T

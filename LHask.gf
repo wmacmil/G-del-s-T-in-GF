@@ -69,6 +69,9 @@ lin
 
   -- all scratchwork 
 
+  -- p "double : nat -> nat ; double = \\ ( x : nat ) -> rec x { 0 => 0 | suc _ with y => suc suc y }"
+  --   DtypDef (Dtyp Double (Tarr Tnat Tnat)) (Ddef Double (Elam X Tnat (Enatrec Under Y (Esuc (Esuc (Evar Y))) (Evar (IntV 0)) (Evar X))))
+
   --harper
   -- Enatrec e1 x y e2 e3 = "rec" ++ e1 ++ ++ "|" ++ "zero" ++ "->" ++ e2 ++ "|" ++ suc ++ x ++ "->" ++
 
@@ -82,5 +85,6 @@ lin
   --   Elam F Tnat (Elam Z Tnat (Enatrec (Elam X Tnat (Elam Y Tnat (Esuc (Evar Y)))) (Evar F) (Evar Z)))
 
   -- p "\\ ( f z : nat ) -> rec ( \\ ( x y : nat ) -> suc y ) f z" | tt -- equivalently
+
 
 }
