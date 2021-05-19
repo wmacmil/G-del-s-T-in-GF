@@ -1,0 +1,7 @@
+
+p -cat=Tele "( x y z : nat )"
+TeleC X (ConsVar Y (ConsVar Z BaseVar)) Enat
+
+
+p "( x y z : nat ) -> ( plus x ( plus y z ) ) -> ( plus ( plus x y ) z )"
+Epi (ConsTele (TeleC X (ConsVar Y (ConsVar Z BaseVar)) Enat) BaseTele) (Earr (Eapp (Eapp (Evar Plus) (Evar X)) (Eapp (Eapp (Evar Plus) (Evar Y)) (Evar Z))) (Eapp (Eapp (Evar Plus) (Eapp (Eapp (Evar Plus) (Evar X)) (Evar Y))) (Evar Z)))
