@@ -34,8 +34,11 @@ fun
   G : Var ;
   N : Var ;
   X : Var ;
+  X' : Var ;
   Y : Var ;
+  Y' : Var ;
   Z : Var ;
+  Z' : Var ;
   Und : Var ;
   IntV : Int -> Var ;
 
@@ -48,8 +51,17 @@ fun
 
   Double : Var ;
   Plus : Var ;
+  -- Plus : Exp -> Exp -> Exp
   Times : Var ;
   Assoc : Var ;
   Ap : Var ;
+
+-- -- Interps
+--   Set theory , n is an element of \bN
+--   Type theory , n is a term of type Nat
+--   Homotopy theory , n is a point in the space N
+--   Logic , n is a proof of the proposition Nat --broken
+--   Category Theoretic , n is an arrow between
+
 
 }

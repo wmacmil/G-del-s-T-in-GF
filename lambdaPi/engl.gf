@@ -7,7 +7,6 @@ lincat
   Var = Str ;
   [Var] = Str ;
   Decl = Str ;
-   -- =
 
 lin
 
@@ -33,15 +32,16 @@ lin
   Esuc e = "the successor of" ++ e ;
 
 --Enatrec : Var -> Var -> Exp -> Exp -> Exp ->  Exp ;
-  Enatrec v1 v2 step base n = "the recursor over" ++ n ++ ". In the base case, 0, we take" ++ base ++ ". In the case of a successor, we take some number" ++ v2 ++ "to" ++ step ++ "." ; --to its successor
-
-  -- suc suc == suc . suc == successor applied twice == apply the successor twice to some number
+  Enatrec v1 v2 step base n = "the recursor over" ++ n ++ ". In the base case  we take" ++ base ++ ". In the case of a successor, we take some number" ++ v2 ++ "to" ++ step ++ "." ; --to its successor
 
     -- Enatrec v1 v2 step base n = mkPrec 3 ("rec" ++ usePrec 4 n ++ "{ 0 =>" ++ usePrec 4 base ++ "| suc" ++ v1 ++  "with" ++ v2 ++ "=>" ++ usePrec 4 step ++ "}") ;
+
 
   -- define addtion by recursion on x, taking 0
   -- the first arguement [anaphoric]
   -- recurse over n, taking 0 to 0 and the successor of v2 to
+
+
 
   --alternatively for agda
   --Enatrec : Exp -> Exp -> Exp -> Exp ;
@@ -66,28 +66,10 @@ lin
   ConsVar v vs = v ++ "," ++ vs ;
 
 --TypDef : Decl -> Decl -> Decl ;
---TypDef : Var -> Typ -> Exp -> Decl ; for anaphoric, then unify via pgf
   DtypDef d1 d2 = d1 ++ "and" ++ d2 ; -- \n fails, breaks the (l . p . l)
 
-  -- anaphoric
-
-
-  -- a : b
-
-  --   or
-
-  -- a = b'
-
-  --   or
-
-  -- a = b'
-  -- a : b'
-
-
-
-
 --Typ : Var -> Typ -> Decl ;
-  Dtyp v t = v ++ "is a term with" ++ t ++ "as its type" ;
+  Dtyp v t = v ++ "has the type" ++ t ;
   -- type of vs type taking naturals to naturals
   -- be in
   -- be a

@@ -47,6 +47,7 @@ lin
   BaseVar = "" ;
   ConsVar x xs = x ++ xs ;
 
+
   Assoc = "assoc" ;
   Double = "double" ;
   Plus = "plus" ;
@@ -60,8 +61,11 @@ lin
   G = "g" ;
   N = "n" ;
   X = "x" ;
+  X' = "x'" ;
   Y = "y" ;
+  Y' = "y'" ;
   Z = "z" ;
+  Z' = "z'" ;
   Und = "_" ;
 
   -- p "( x y z : nat ) -> ( plus x ( plus y z ) ) -> ( plus ( plus x y ) z )"

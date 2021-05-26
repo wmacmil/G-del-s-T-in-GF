@@ -1,84 +1,92 @@
 concrete LEng of L = open Prelude, FormalTwo in {
 
 lincat
-  Typ = Str ;
-  -- TermPrec ;
   Exp = Str ;
   Var = Str ;
+  -- Decl = Str ;
+  Tele = Str ;
+  [Tele] = Str ;
   [Var] = Str ;
-  Decl = Str ;
 
 lin
 
---Tarr : Typ -> Typ -> Typ ;
-  Tarr t1 t2 = t1 ++ "to" ++ t2 ;
-  -- Tarr =  "->" ; -- A -> Set
-  -- want the function to be included in the type "the function type from natural numbers s to natural numbers" the
---Tnat : Typ ;
-  Tnat = "the natural numbers" ;
+--Earr : Typ -> Typ -> Typ ;
+  Earr e1 e2 = e1 ++ "to" ++ e2 ;
+--Epi : [Tele] -> Exp -> Exp ;
+  Epi ts e = "for every" ++ ts ++ e ;
+--Eid : Exp -> Exp -> Exp -> Exp ;
+  Eid e1 e2 e3 = e2 ++ "is equal to" ++ e3 ++ "at type" ++ e1 ; --type theoretic reading
+--Eid2 : Exp -> Exp -> Exp ;
+  Eid2 e1 e2 = e1 ++ "is equal to" ++ e2 ;
+  Enat = "the natural numbers" ;
+  Euni = "type" ;
+
+
+  Erefl = "reflexivity" ;
 
 --Evar : Var -> Exp ;
   Evar v = v ;
---Elam : Var -> Typ -> Exp -> Exp ;
-  Elam v t e = "function taking" ++ v ++ "in" ++ t ++ "to" ++ e ;
+--Elam : Tele -> Exp -> Exp ;
+  -- Elam ts e = "function taking" ++ ts ++ "to" ++ e ; -- program
+  Elam ts e = "suppose" ++ ts ++ "." ++ e ; --proof
 --Eapp : Exp -> Exp -> Exp ;
-  -- Eapp e1 e2 = e1 ++ e2 ;
   Eapp e1 e2 = "apply" ++ e1 ++ "to" ++ e2 ;
-
 
 --Ezer    : Exp ;
   Ezer = "zero" ;
 --Esuc    : Exp -> Exp ;
   Esuc e = "the successor of" ++ e ;
+--Enatind : Exp -> Exp -> Exp -> Exp -> Exp ;
+  Enatind motive base ind n = "We proceed by induction over" ++ n ++ ". We therefore wish to prove :" ++ motive ++ ". In the base case, suppose" ++ n ++ "equals zero. we know this by" ++ base ++ ". In the inductive case, suppose" ++ n ++ "is the successor. Then one has one has" ++ ind ;
 
---Enatrec : Var -> Var -> Exp -> Exp -> Exp ->  Exp ;
-  Enatrec v1 v2 step base n = "the recursor over" ++ n ++ ". In the base case  we take" ++ base ++ ". In the case of a successor, we take some number" ++ v2 ++ "to" ++ step ++ "." ; --to its successor
+    -- mkPrec 3 ("natind" ++ usePrec 4 motive ++ usePrec 4 base ++ usePrec 4 ind ++ usePrec 4 n) ;
 
-    -- Enatrec v1 v2 step base n = mkPrec 3 ("rec" ++ usePrec 4 n ++ "{ 0 =>" ++ usePrec 4 base ++ "| suc" ++ v1 ++  "with" ++ v2 ++ "=>" ++ usePrec 4 step ++ "}") ;
+  -- TeleC : Exp -> Exp -> Tele ; -- ( x : Set ) -- ( y : x -> Set )" -- ( x : f y z )"
+  TeleC v vs e = v ++ "," ++ vs ++ "are in" ++ e ; -- is for single
 
+  BaseTele = "" ;
+  ConsTele x xs = x ++ xs ;
 
-  -- define addtion by recursion on x, taking 0
-  -- the first arguement [anaphoric]
-  -- recurse over n, taking 0 to 0 and the successor of v2 to
+  BaseVar = "" ;
+  ConsVar x xs = x ++ xs ;
 
+  Assoc = "assoc" ;
+  Double = "double" ;
+  Plus = "plus" ;
+  Times = "times" ;
+  Ap = "ap" ;
 
-
-  --alternatively for agda
-  --Enatrec : Exp -> Exp -> Exp -> Exp ;
-  -- Enatrec step base n = mkPrec 3 ("rec" ++ usePrec 4 step ++ usePrec 4 base ++ usePrec 4 n) ;
-
+  --IntV : Int -> Var ;
+  IntV s = s.s ;
 
   F = "f" ;
   G = "g" ;
+  N = "n" ;
   X = "x" ;
+  X' = "x'" ;
   Y = "y" ;
+  Y' = "y'" ;
   Z = "z" ;
-  Under = "_" ;
+  Z' = "z'" ;
+  Und = "_" ;
 
---IntV : Int -> Var ;
-  IntV s = s.s ;
+  -- p "( x y z : nat ) -> ( plus x ( plus y z ) ) -> ( plus ( plus x y ) z )"
 
-  --EXT
+  -- p "\\ ( x y z : nat ) -> natind ( \\ ( f : nat ) -> ( ( plus f ( plus y z ) ) == ( plus ( plus f y ) z ) ) ) refl ( \\ ( f : nat ) -> \\ ( g :  ( ( plus f ( plus y z ) ) == ( plus ( plus f y ) z ) ) ) -> ap suc g ) x" | tt
 
-  Elams vs t e = "function taking" ++ vs ++ "in" ++ t ++ "to" ++ e ;
+  -- p "( \\ ( f : nat ) -> \\ ( g : ( ( plus f ( plus y z ) ) == ( plus ( plus f y ) z ) ) -> ap suc g ) )"
 
-  BaseVar v1 v2 = v1 ++ "and" ++ v2 ;
-  ConsVar v vs = v ++ "," ++ vs ;
+  -- p "\\ ( x y z : nat ) -> natind ( \\ ( f : nat ) -> ( ( plus f ( plus y z ) ) == ( plus ( plus f y ) z ) ) ) refl ( \\ ( f : nat ) -> \\ ( g :  ( ( plus f ( plus y z ) ) == ( plus ( plus f y ) z ) ) ) -> ap suc g ) x"
 
---TypDef : Decl -> Decl -> Decl ;
-  DtypDef d1 d2 = d1 ++ "and" ++ d2 ; -- \n fails, breaks the (l . p . l)
+  -- associativity-plus-ind : (m n p : ℕ) → ((m + n) + p) ≡ (m + (n + p))
+  -- associativity-plus-ind m n p = natind {λ n' → ((n' + n) + p) ≡ ((n' + (n + p)))} refl (λ n₁ x → ap suc x) m
 
---Typ : Var -> Typ -> Decl ;
-  Dtyp v t = v ++ "has the type" ++ t ;
-  -- type of vs type taking naturals to naturals
-  -- be in
-  -- be a
+-- --DtypDef : Decl -> Decl -> Decl ;
+--   DtypDef d1 d2 = d1 ++ ";" ++ d2 ; -- \n fails, breaks the (l . p . l)
+-- --Typ : Var -> Typ -> Decl ;
+--   Dtyp v t = v ++ ":" ++ t.s ;
+-- --Def : Var -> Exp -> Decl ;
+--   Ddef v e = v ++ "=" ++ e.s ;
 
---Def : Var -> Exp -> Decl ;
-  Ddef v e = v ++ "is defined to be" ++ e ;
-
-  Double = "double" ;
-  Plus = "the sum" ;
-  Times = "the product" ;
 
 }

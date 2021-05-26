@@ -74,8 +74,7 @@ n1 +' n2 = ℕrec (λ _ x₁ → suc x₁) n1 n2
 
 _*''_ : ℕ → ℕ → ℕ
 zero *'' x₁ = zero
-suc zero *'' x₁ = x₁
-suc (suc x) *'' x₁ = x₁ + (suc x *'' x₁)
+suc x *'' x₁ = x₁ + (x *'' x₁)
 
 f = λ ( x : ℕ ) → x + 3
 
@@ -89,6 +88,66 @@ x ^'' suc y = x * (x ^'' y)
 _^'_ : ℕ → ℕ → ℕ
 x ^' y = ℕrec (λ x₁ x₂ → x *' x₂) 1 y
 
+factorial : ℕ → ℕ
+factorial zero = 1
+factorial (suc x) = (suc x) * (factorial x)
+
+pred : ℕ → ℕ
+pred zero = zero
+pred (suc n) = n
+
+pred' : ℕ → ℕ
+pred' n = ℕrec (λ x x₁ → x) 0 n
+
+factorial' : ℕ → ℕ
+factorial' n = ℕrec (λ x x₁ → n *' x₁) 1 n
+
+ackerman : ℕ → ℕ → ℕ
+ackerman zero y = y + 1
+ackerman (suc x) zero = ackerman x 1
+ackerman (suc x) (suc y) = ackerman x (ackerman (suc x) y)
+
+id : {A : Set} → A → A
+id a = a
+
+_∘_ : {A B C : Set} → (B → C) → (A → B) → (A → C)
+f ∘ g = λ z → f (g z)
+
+iter : (ℕ → ℕ) → ℕ → ℕ → ℕ
+iter f n = ℕrec (λ _ g → f ∘ g) id n
+
+--works
+ackerm : ℕ → ℕ → ℕ
+ackerm m = ℕrec (λ _ f → λ n → iter f n (f 1)) suc m
+
+
+-- Natural language :
+-- The Ackerman is defined as a binary function which takes two nats and returns a nat.
+-- In the case that the first arguement is zero, we return the successor of the second arguement.
+-- Otherwise, if the second arguement is zero, we return the ackerman function applied to the predessecor of the second arguement and 1.
+-- Finally, if both arguements are nonzero, we apply the ackerman to the successor of the first arguement and the ackerman function itself applied to the first arguement to and the predecessor of the second.
+
+-- A(0,n) = n + 1
+-- A(m,0) = A(m - 1, 1)
+-- A(m,n) = A(m - 1,A(m,n-1))
+
+
+-- why does
+f327 : factorial' 3 ≡ 27
+f327 = refl
+f44^'4 : factorial' 4 ≡ (4 ^' 4)
+f44^'4 = refl
+-- ?
+
+-- ℕrec : {X : Set} -> (ℕ -> X -> X) -> X -> ℕ -> X
+-- ℕrec f x zero = x
+-- ℕrec f x (suc n) = f n (ℕrec f x n)
+
+-- asdf = (λ x x₁ → 2 *' x₁) 1 ((λ x x₁ → 2 *' x₁) 1 1)
+-- asdf' = (λ x x₁ → 3 *' x₁) 1 ((λ x x₁ → 2 *' x₁) 1 ((λ x x₁ → 1 *' x₁) 1 1))
+-- -- n ^ n
+
+
 variable
   A B : Set
   a a' : A
@@ -100,6 +159,7 @@ zsz : (y : ℕ) → (zero + suc y) ≡ suc y
 zsz zero = refl
 zsz (suc y) = ap suc refl
 
+-- ℕrec : {X : Set} -> (ℕ -> X -> X) -> X -> ℕ -> X
 natind : {C : ℕ -> Set} -> C zero -> ((n : ℕ) -> C n -> C (suc n)) -> (n : ℕ) -> C n
 natind base step zero     = base
 natind base step (suc n) = step n (natind base step n)
@@ -116,9 +176,9 @@ associativity-plus-ind m n p = natind {λ n' → ((n' + n) + p) ≡ ((n' + (n + 
 
 -- assocType = (m n p : ℕ) → ((m + n) + p) ≡ (m + (n + p))
 
--- associativity-plus-ind : (m n p : ℕ) → ((m + n) + p) ≡ (m + (n + p))
--- associativity-plus-ind zero n p = refl
--- associativity-plus-ind (suc m) n p = ap suc (associativity-plus-ind m n p)
+associativity-plus-ind' : (m n p : ℕ) → ((m + n) + p) ≡ (m + (n + p))
+associativity-plus-ind' zero n p = refl
+associativity-plus-ind' (suc m) n p = ap suc (associativity-plus-ind m n p)
 
 -- proving associativity using the induction axiom
 

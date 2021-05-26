@@ -5,3 +5,13 @@ TeleC X (ConsVar Y (ConsVar Z BaseVar)) Enat
 
 p "( x y z : nat ) -> ( plus x ( plus y z ) ) -> ( plus ( plus x y ) z )"
 Epi (ConsTele (TeleC X (ConsVar Y (ConsVar Z BaseVar)) Enat) BaseTele) (Earr (Eapp (Eapp (Evar Plus) (Evar X)) (Eapp (Eapp (Evar Plus) (Evar Y)) (Evar Z))) (Eapp (Eapp (Evar Plus) (Eapp (Eapp (Evar Plus) (Evar X)) (Evar Y))) (Evar Z)))
+
+
+
+ p "\\ ( x y z : nat ) -> natind ( \\ ( x' : nat ) -> ( ( plus x' ( plus y z ) ) == ( plus ( plus x' y ) z ) ) ) refl ( \\ ( x' : nat ) -> \\ ( y' :  ( ( plus x' ( plus y z ) ) == ( plus ( plus x' y ) z ) ) ) -> ap suc y' ) x" | tt
+
+
+ p -lang=LHask "\\ ( x y z : nat ) -> natind ( \\ ( f : nat ) -> ( ( plus f ( plus y z ) ) == ( plus ( plus f y ) z ) ) ) refl ( \\ ( f : nat ) -> \\ ( g :  ( ( plus f ( plus y z ) ) == ( plus ( plus f y ) z ) ) ) -> ap suc g ) x" | l
+0 msec
+L> function taking x , y z in the natural numbers to We proceed by induction over x . We therefore wish to prove : function taking f , in the natural numbers to apply apply plus to f to apply apply plus to y to z is equal to apply apply plus to apply apply plus to f to y to z . In the base case, suppose x equals zero. we know this by reflexivity . In the inductive case, suppose x is the successor. Then one has one has function taking f , in the natural numbers to function taking g , in apply apply plus to f to apply apply plus to y to z is equal to apply apply plus to apply apply plus to f to y to z to apply ap to the successor of g
+\ ( x y z : nat ) -> natind ( \ ( f : nat ) -> ( ( ( plus ) ( f ) ) ( ( ( plus ) ( y ) ) ( z ) ) ) == ( ( ( plus ) ( ( ( plus ) ( f ) ) ( y ) ) ) ( z ) ) ) ( refl ) ( \ ( f : nat ) -> \ ( g : ( ( ( plus ) ( f ) ) ( ( ( plus ) ( y ) ) ( z ) ) ) == ( ( ( plus ) ( ( ( plus ) ( f ) ) ( y ) ) ) ( z ) ) ) -> ( ap ) ( suc ( g ) ) ) ( x )
