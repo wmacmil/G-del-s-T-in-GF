@@ -18,9 +18,10 @@ lin
   Eid e1 e2 e3 = mkPrec 3 (usePrec 4 e1 ++ usePrec 4 e2 ++ "==" ++ usePrec 3 e3) ;
 --Eid2 : Exp -> Exp -> Exp ;
   Eid2 e1 e2 = mkPrec 3 (usePrec 4 e1 ++ "==" ++ usePrec 3 e2) ;
+  -- why not just infixr instead of l?
+
   Enat = constant "nat" ;
   Euni = constant "Set" ;
-
 
   Erefl = constant "refl" ;
 
@@ -29,12 +30,14 @@ lin
 --Elam : Tele -> Exp -> Exp ;
   Elam ts e = mkPrec 0 ("\\" ++ ts ++ "->" ++ top e) ;
 --Eapp : Exp -> Exp -> Exp ;
-  Eapp = infixl 2 "" ;
+  Eapp = infixl 8 "" ;
 
 --Ezer    : Exp ;
   Ezer = constant "zero" ;
 --Esuc    : Exp -> Exp ;
-  Esuc e = mkPrec 4 ("suc" ++ usePrec 4 e) ;
+  -- Esuc e = mkPrec 4 ("suc" ++ usePrec 4 e) ;
+  Esuc = prefix 8 "suc" ; -- mkPrec 4 ("suc" ++ usePrec 4 e) ;
+  EsucEta = constant "suc" ;
 --Enatind : Exp -> Exp -> Exp -> Exp -> Exp ;
   Enatind motive base ind n = mkPrec 3 ("natind" ++ usePrec 4 motive ++ usePrec 4 base ++ usePrec 4 ind ++ usePrec 4 n) ;
 
@@ -86,5 +89,16 @@ lin
 -- --Def : Var -> Exp -> Decl ;
 --   Ddef v e = v ++ "=" ++ e.s ;
 
+  -- infix 40 _==_ _<_ _>_ _≤_ _≥_
+  -- infixl 60 _+_ _-_
+  -- infixl 70 _*_
+  -- infix  90 -_
+
+  -- EDouble e = cupric 4 ("2*" ++ usePrec 4 e) ;
+  EDouble = prefix 8 "2*" ; -- mkPrec 4 ("2*" ++ usePrec 4 e) ;
+  EPlus = infixl 5 "+" ;
+  ETimes = infixl 6 "*" ;
+  -- what is the default
+  ECong e1 e2 = mkPrec 4 ("cong" ++ usePrec 4 e1 ++ usePrec 4 e2) ;
 
 }

@@ -28,6 +28,7 @@ fun
 
   Ezer : Exp ;
   Esuc : Exp -> Exp ;
+  EsucEta : Exp ;
   Enatind : Exp -> Exp -> Exp -> Exp -> Exp ;
 
   F : Var ;
@@ -56,12 +57,11 @@ fun
   Assoc : Var ;
   Ap : Var ;
 
--- -- Interps
---   Set theory , n is an element of \bN
---   Type theory , n is a term of type Nat
---   Homotopy theory , n is a point in the space N
---   Logic , n is a proof of the proposition Nat --broken
---   Category Theoretic , n is an arrow between
+  -- trying extended logical framework, type signatures should be inferrable from context
 
+  EDouble : Exp -> Exp ;
+  EPlus : Exp -> Exp -> Exp ;
+  ETimes : Exp -> Exp -> Exp ;
+  ECong : Exp -> Exp -> Exp ;
 
 }

@@ -2,11 +2,15 @@ resource FormalTwo = open Prelude in {
 
   -- to replace the old library Precedence
 
+  -- param Con = CInfix | CPrefix | CPostfix | CNone ;
+
   oper
     TermPrec : Type = {s : Str ; p : Prec} ;
+    -- TermPrecCon : Type = {s : Str ; p : Prec ; c : Con } ;
 
     mkPrec : Prec -> Str -> TermPrec = \p,s ->
-      {s = s ; p = p} ;
+      {s = s ; p = p } ;
+      -- {s = s ; p = p ; c = CNone } ;
 
     top : TermPrec -> Str = usePrec 0 ;
 

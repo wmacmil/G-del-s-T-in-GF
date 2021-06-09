@@ -1,5 +1,6 @@
 concrete LHask of L = open Prelude, FormalTwo in {
 
+
 lincat
   Typ = TermPrec ;
   Exp = TermPrec ;
@@ -10,7 +11,6 @@ lincat
 lin
 
 --Tarr : Typ -> Typ -> Typ ;
-  -- Tarr t1 t2 = t1 ++ "->" ++ t2 ;
   Tarr = infixr 1 "->" ; -- A -> Set
 --Tnat : Typ ;
   Tnat = constant "nat" ;
@@ -20,9 +20,7 @@ lin
 --Elam : Var -> Typ -> Exp -> Exp ;
   Elam v t e = mkPrec 0 ("\\" ++ parenth (v ++ ":" ++ usePrec 0 t) ++ "->" ++ usePrec 0 e) ;
 --Eapp : Exp -> Exp -> Exp ;
-  -- Eapp e1 e2 = e1 ++ e2 ;
   Eapp = infixl 2 "" ;
-
 
 --Ezer    : Exp ;
   Ezer = constant "zero" ;
@@ -34,9 +32,9 @@ lin
 
   -- why does this work with the last usePrec as 2
 
-  --alternatively for agda
-  --Enatrec : Exp -> Exp -> Exp -> Exp ;
-  -- Enatrec step base n = mkPrec 3 ("rec" ++ usePrec 4 step ++ usePrec 4 base ++ usePrec 4 n) ;
+  -- alternatively for agda
+  -- Enatrec : Exp -> Exp -> Exp -> Exp ;
+  EnatrecLam step base n = mkPrec 3 ("Nrec" ++ usePrec 4 step ++ usePrec 4 base ++ usePrec 4 n) ;
 
 
   F = "f" ;
@@ -67,8 +65,49 @@ lin
   Double = "double" ;
   Plus = "plus" ;
   Times = "times" ;
+  Fact = "factorial" ;
+  Acker = "ackerman" ;
+
+
+  -- infixl 6 _+_ _-_
+  -- infixl 7 _*_
+  -- As a result, the precedence of -> is lower than any precedence you may declare with infixl and infixr.
+
+  -- how to append fixity
+
+  -- Double = "double" ;
+  -- Plus = "+" ;
+  -- Times = "*" ;
+  -- Fact = "!" ;
+  -- Acker = "ackerman" ;
+
+
+  -- double' : ℕ → ℕ
+  -- double' n = ℕrec (λ x y → suc (suc y)) 0 n
+  -- p "\\ ( x : nat ) -> rec ( \\ ( _ y : nat ) -> suc suc y ) 0 x"
+-- p "\\ ( x : nat ) -> rec ( \\ ( _ y : nat ) -> suc suc y ) 0 x"
+
+  -- n1 +' n2 = ℕrec (λ _ x₁ → suc x₁) n1 n2
+  -- _+'_ : ℕ → ℕ → ℕ
+  -- n1 +' n2 = ℕrec (λ _ x₁ → suc x₁) n1 n2
+
+  -- p "\\ ( x y : nat ) -> Nrec ( \\ ( _ z : nat ) -> suc z ) x y"
+
+  -- p -cat=Decl "* : nat -> nat -> nat ; * = \\ ( x y : nat ) -> rec x { 0 => 0 | suc _ with z => + y z }"
+  -- p "times : nat -> nat -> nat ; times = \\ ( x y : nat ) -> rec x { 0 => 0 | suc _ with z => plus y z }"
+
+  -- _*'_ : ℕ → ℕ → ℕ
+  -- _*'_ n1 n2 = ℕrec (λ n3 n4 → n1 +' n4) 0 n2
 
   -- all scratchwork
+
+  -- Multiplication a binary function, taking two nats, x and y, and returning a nat.
+  --   We proceed by cases on the first arguement, x.
+  --   If x is zero, return zero, i.e. zero times anything is zero.
+  --   -- If the first arguement is zero, return zero. -- anaphora
+  --   If x is non-zero, return the sum of y and the product of x and y.
+  --   -- If x is a successor,  -- alterantive to
+
 
   -- p "times : nat -> nat -> nat ; times = \\ ( x y : nat ) -> rec x { 0 => 0 | suc _ with z => plus y z }"
 

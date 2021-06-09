@@ -1,6 +1,6 @@
 abstract L = {
 
-flags startcat = Decl ;
+flags startcat = Exp ;
 
 cat
   Typ ;
@@ -22,7 +22,7 @@ fun
   Ezer : Exp ;
   Esuc : Exp -> Exp ;
 
-  -- Enatrec : Exp -> Exp -> Var -> Var -> Exp ->  Exp ;
+  EnatrecLam : Exp -> Exp -> Exp ->  Exp ;
 
   -- in this case, we internalize the lambda expression via bound variables given explicitly in the AST
   Enatrec : Var -> Var -> Exp -> Exp -> Exp ->  Exp ;
@@ -48,5 +48,15 @@ fun
   Double : Var ;
   Plus : Var ;
   Times : Var ;
+  Fact : Var ;
+  Acker : Var ;
+
+
+  --
+  EDouble : Exp -> Exp ;
+  EPlus : Exp -> Exp -> Exp ;
+  ETimes : Exp -> Exp -> Exp ;
+
+  -- Plus : Exp -> Exp -> Exp -- Plus e1 e2 = "the sum of" ++ e1 ++ "and" ++ e2"
 
 }

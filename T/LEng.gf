@@ -4,10 +4,15 @@ lincat
   Typ = Str ;
   -- TermPrec ;
   Exp = Str ;
-  Var = Str ;
+  Var = Str ; 
   [Var] = Str ;
   Decl = Str ;
    -- =
+
+  -- oper ExpVar : Type = { s : Str ; arityNum : _uknownParam_ } ;
+  -- lincat Var = ExpVar ;
+  -- lincat Exp = ExpVar ;
+  -- Eapp e1 e2 = case e1.arityNum of { _ => _ }
 
 lin
 
@@ -32,8 +37,22 @@ lin
 --Esuc    : Exp -> Exp ;
   Esuc e = "the successor of" ++ e ;
 
---Enatrec : Var -> Var -> Exp -> Exp -> Exp ->  Exp ;
-  Enatrec v1 v2 step base n = "the recursor over" ++ n ++ ". In the base case, 0, we take" ++ base ++ ". In the case of a successor, we take some number" ++ v2 ++ "to" ++ step ++ "." ; --to its successor
+-- --Enatrec : Var -> Var -> Exp -> Exp -> Exp ->  Exp ;
+--   Enatrec v1 v2 step base n = "the recursor over" ++ n ++ ". In the base case, 0, we take" ++ base ++ ". In the case of a successor, we take some number" ++ v2 ++ "to" ++ step ++ "." ; --to its successor
+
+
+-- --EnatrecLam : Exp -> Exp -> Exp ->  Exp ;
+--   EnatrecLam base step n = _ ;
+
+  Enatrec v1 v2 step base n = "We proceed by cases on the first arguement," ++ n ++ ". In the base case, if " ++ n ++ "is 0, we return" ++ base ++ ". In the case of" ++ n ++ "being a successor, we return" ++ step ++ "." ; --to its successor
+
+  -- Multiplication a binary function, taking two nats, x and y, and returning a nat.
+  -- We proceed by cases on the first arguement, x.
+  -- If x is zero, return zero, i.e. zero times anything is zero.
+  --   -- If the first arguement is zero, return zero. -- anaphora
+  -- If x is non-zero, return the sum of y and the product of x and y.
+  --   -- If x is a successor,  -- alterantive to
+
 
   -- suc suc == suc . suc == successor applied twice == apply the successor twice to some number
 
@@ -98,5 +117,10 @@ lin
   Double = "double" ;
   Plus = "the sum" ;
   Times = "the product" ;
+
+
+  -- EDouble : Exp -> Exp ;
+  -- EPlus : Exp -> Exp -> Exp ;
+  -- ETimes : Exp -> Exp -> Exp ;
 
 }
