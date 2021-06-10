@@ -7,8 +7,11 @@ cat
   Var ;
   -- Decl ; --Ext
   Tele ;
+  LTele ;
   [Var]{0} ;
   [Tele]{0} ;
+  [LTele]{1} ;
+
 
 fun
   -- previously types
@@ -20,7 +23,7 @@ fun
   Euni : Exp ;
 
   Evar : Var -> Exp ;
-  Elam : [Tele] -> Exp -> Exp ;
+  Elam : [LTele] -> Exp -> Exp ;
   Eapp : Exp -> Exp -> Exp ;
 
   Erefl : Exp ;
@@ -28,7 +31,7 @@ fun
 
   Ezer : Exp ;
   Esuc : Exp -> Exp ;
-  EsucEta : Exp ;
+  EsucEta : Exp ; -- how does this effect the NL expression, as well as thinking how to compute between it and Esuc at PGF layer
   Enatind : Exp -> Exp -> Exp -> Exp -> Exp ;
 
   F : Var ;
@@ -45,6 +48,8 @@ fun
 
   TeleC : Var -> [Var] -> Exp -> Tele ;
   -- TeleC : Exp -> Exp -> Tele ; -- ( x : Set ) -- ( y : x -> Set )" -- ( x : f y z )"
+  -- LTeleC : Exp -> Exp -> LTele ;
+  LTeleC : [Var] -> Exp -> LTele ;
 
   -- DtypDef : Decl -> Decl -> Decl ;
   -- Dtyp : Var -> Typ -> Decl ;
@@ -63,5 +68,8 @@ fun
   EPlus : Exp -> Exp -> Exp ;
   ETimes : Exp -> Exp -> Exp ;
   ECong : Exp -> Exp -> Exp ;
+
+  -- think of Kant and intensional vs extensional : defining what associative is
+  -- p "\\ ( x y z : nat ) -> natind ( \\ ( f : nat ) -> ( f + x + y == f + ( x + y ) ) ) refl ( \\ ( f : nat ) -> \\ ( g :  ( ( plus f ( plus y z ) ) == ( plus ( plus f y ) z ) ) ) -> cong suc g  ) x" 
 
 }

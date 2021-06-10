@@ -7,6 +7,8 @@ lincat
   Tele = Str ;
   [Tele] = Str ;
   [Var] = Str ;
+  LTele = Str ;
+  [LTele] = Str ;
 
 lin
 
@@ -27,7 +29,7 @@ lin
 
 --Evar : Var -> Exp ;
   Evar v = constant v ;
---Elam : Tele -> Exp -> Exp ;
+--Elam : LTele -> Exp -> Exp ;
   Elam ts e = mkPrec 0 ("\\" ++ ts ++ "->" ++ top e) ;
 --Eapp : Exp -> Exp -> Exp ;
   Eapp = infixl 8 "" ;
@@ -50,9 +52,16 @@ lin
   BaseVar = "" ;
   ConsVar x xs = x ++ xs ;
 
+  BaseLTele x = x ;
+  ConsLTele x xs = x ++ xs ;
+
+--LTeleC : Exp -> Exp -> LTele ;
+  LTeleC vs e2 = "(" ++ vs ++ ":" ++ top e2 ++ ")" ;
+
 
   Assoc = "assoc" ;
   Double = "double" ;
+
   Plus = "plus" ;
   Times = "times" ;
   Ap = "ap" ;
@@ -99,6 +108,15 @@ lin
   EPlus = infixl 5 "+" ;
   ETimes = infixl 6 "*" ;
   -- what is the default
-  ECong e1 e2 = mkPrec 4 ("cong" ++ usePrec 4 e1 ++ usePrec 4 e2) ;
+  ECong e1 e2 = mkPrec 4 ("cong" ++ usePrec 1 e1 ++ usePrec 1 e2) ;
+
+  -- one can express the associativity property as a list, and therefore generalize it, but this knowledge kind of needs to be known via something like a free monoid construction
+
+  -- the type inference can make a big difference in NL output
+  -- p "\\ ( x y z : nat ) -> natind ( \\ ( x' : nat ) -> ( x' + y + z == x' + ( y + z ) ) ) refl ( \\ ( x' : nat ) -> \\ ( y' :  ( x' + y + z == x' + ( y + z ) ) ) -> cong suc y' ) x" 
+
+
+  -- 1153 , now broken because its misinterpreting the tele, but this is actually consistent with cubicaltt, see lem5 in bool.ctt
+  --anyways, i just made it a list of vars instead
 
 }

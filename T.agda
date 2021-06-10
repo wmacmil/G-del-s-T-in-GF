@@ -1,9 +1,13 @@
 module T where
 
 open import Agda.Builtin.Nat renaming (Nat to ℕ) public
+import Relation.Binary.PropositionalEquality as Eq
+open Eq using (_≡_; refl; trans; sym; cong; cong-app; subst)
+open Eq.≡-Reasoning using (begin_; _≡⟨⟩_; step-≡; _∎)
 
-data _≡_ {A : Set} (a : A) : A → Set where
-  refl : a ≡ a
+
+-- data _≡_ {A : Set} (a : A) : A → Set where
+--   refl : a ≡ a
 
 
 -- notice X in Godels T is not that interesting, it is inherently just some parenthesized form of (ℕ → ℕ → ... → ℕ)
@@ -22,6 +26,8 @@ _+'_ : ℕ → ℕ → ℕ
 n1 +' n2 = ℕrec (λ _ x₁ → suc x₁) n1 n2
 
 +'' = λ n1 n2 → ℕrec (λ _ x₁ → suc x₁) n1 n2
+
++''' = λ (n1 n2 : ℕ) → ℕrec (λ _ x₁ → suc x₁) n1 n2
 
 -- Multiplication a binary function, taking two nats, x and y, and returning a nat.
 -- We proceed by cases on the first arguement, x.
@@ -112,7 +118,7 @@ natind base step (suc n) = step n (natind base step n)
 
 zeroRight' : (p : ℕ) → (p + 0) ≡ p
 zeroRight' zero = refl
-zeroRight' (suc p) = ap suc (zeroRight' p)
+zeroRight' (suc p) = ap (λ x → suc x) (zeroRight' p)
 
 --note, this is only different from the above program in the motive
 zeroRight : (p : ℕ) → (p + 0) ≡ p
@@ -154,10 +160,12 @@ associativity-plus (suc m) n p = ap suc (associativity-plus m n p)
 
 
 associativity-plus-ind : (m n p : ℕ) → ((m + n) + p) ≡ (m + (n + p))
-associativity-plus-ind m n p = natind {λ n' → ((n' + n) + p) ≡ ((n' + (n + p)))} baseCase indCase m
+-- associativity-plus-ind m n p = natind {λ n' → ((n' + n) + p) ≡ ((n' + (n + p)))} baseCase indCase m
+associativity-plus-ind m n p = natind {λ n' → (n' + n) + p ≡ n' + (n + p)} baseCase indCase m
   where
     baseCase = refl
-    indCase = (λ n' x → ap suc x )
+    indCase = λ (n' : ℕ) (x : n' + n + p ≡ n' + (n + p)) → ap suc x 
+    -- indCase = (λ n' x → ap suc x )
 
 --without the motive
 associativity-plus-ind'' : (m n p : ℕ) → ((m + n) + p) ≡ (m + (n + p))
@@ -210,5 +218,23 @@ associativity-plus-ind' m n p = natind baseCase (λ n₁ ih → simpl n₁ (indC
 --   - (* n = S n' *)
 --     simpl. rewrite → IHn'. reflexivity. Qed.
 
+postulate
+  +-identity : ∀ (m : ℕ) → m + zero ≡ m -- identity cancels on the left
+  +-suc : ∀ (m n : ℕ) → m + suc n ≡ suc (m + n) -- successor and addition commute
 
+--idea : can we not have propositional equality theorems baked into - definitional equalities, some kind of sledgehammer tactic
 
++-comm : ∀ (m n : ℕ) → m + n ≡ n + m
++-comm m zero =
+  begin
+    m + zero
+  ≡⟨ +-identity m ⟩
+    m
+  ≡⟨⟩
+    zero + m
+  ∎
++-comm m (suc n) = begin
+    m + suc n   ≡⟨ +-suc m n ⟩
+    suc (m + n) ≡⟨ cong suc (+-comm m n) ⟩
+    suc (n + m) ≡⟨⟩ --defntl, can cancel
+    suc n + m   ∎
